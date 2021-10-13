@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "618491115814",
+    "project_id": "appadel-a7af4",
+    "storage_bucket": "appadel-a7af4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618491115814:android:ab0bbdd3bec879e74ae9e7",
+        "android_client_info": {
+          "package_name": "es.appadel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618491115814-2ibvlkdcsbtg6asfcvdmiu2q5o6uidc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYw1Vzv08MRk5l9KzuPPCsI-mZ9-Ppc0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618491115814-2ibvlkdcsbtg6asfcvdmiu2q5o6uidc7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
