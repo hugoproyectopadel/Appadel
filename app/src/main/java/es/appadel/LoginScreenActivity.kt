@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -17,17 +18,51 @@ class LoginScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login_screen)
-        title = "Login"
-        etEmail = findViewById(R.id.etLoginEmail)
-        etPassword = findViewById(R.id.etPasswordLogin)
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        } else {
+            setContentView(R.layout.activity_login_screen)
+            title = "Login"
+            etEmail = findViewById(R.id.etLoginEmail)
+            etPassword = findViewById(R.id.etPasswordLogin)
+        }
     }
 
-    fun onClickRecuperarContrasena(view: View) {}
+    fun onClickRecuperarContrasena(view: View) {
+
+        val email = etEmail.text.toString()
+
+        if (email.isEmpty()) {
+            Toast.makeText(this, "Debes de rellenar un email", Toast.LENGTH_LONG).show()
+        } else {
+            Firebase.auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            this,
+                            "Email enviado, revisa tu bandeja de entrada",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }.addOnFailureListener {
+
+                    Toast.makeText(
+                        this,
+                        "Ocurrió un error al enviar el email, revisa tus datos.",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                }
+        }
+    }
+
     fun onClickRegistro(view: View) {
         val intent = Intent(this, SingUpScreenActivity::class.java)
         startActivity(intent)
     }
+
     fun onClickAcceder(view: View) {
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()

@@ -1,5 +1,6 @@
 package es.appadel
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -16,7 +17,6 @@ class SingUpScreenActivity : AppCompatActivity() {
     lateinit var etPassword: EditText
     lateinit var etTelefono: EditText
     lateinit var etNombre: EditText
-    private val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +28,11 @@ class SingUpScreenActivity : AppCompatActivity() {
         etNombre = findViewById(R.id.etRegisterName)
     }
     private fun guardarUsuarioFirestore(usuario: Usuario){
-        db.collection("users").document(usuario.uid).set(usuario)
+        Firebase.firestore.collection("users").document(usuario.uid).set(usuario)
             .addOnSuccessListener {
                 Toast.makeText(this, "Usuario creado con éxito", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Ocurrió un error al crear el usuario", Toast.LENGTH_LONG).show()
@@ -43,6 +45,7 @@ class SingUpScreenActivity : AppCompatActivity() {
         val telefono = etTelefono.text.toString()
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Debes de rellenar email y password", Toast.LENGTH_LONG).show()
+
         } else {
             Firebase.auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
@@ -54,9 +57,8 @@ class SingUpScreenActivity : AppCompatActivity() {
                             email = email,
                             nombre = nombre,
                             telefono = telefono
-                        ).also {
-                            guardarUsuarioFirestore(it)
-                        }
+                        )
+                        guardarUsuarioFirestore(usuario)
 
                     } else {
                         Toast.makeText(
