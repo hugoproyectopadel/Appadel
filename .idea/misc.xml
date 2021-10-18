@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jujor/AndroidStudioProjects/proyectos/hugo/app/src/main/res/layout/activity_detalle_partido.xml" value="0.5" />
         <entry key="..\:/Users/jujor/AndroidStudioProjects/proyectos/hugo/app/src/main/res/layout/activity_formulario_partido.xml" value="0.1796875" />
         <entry key="..\:/Users/jujor/AndroidStudioProjects/proyectos/hugo/app/src/main/res/layout/activity_login_screen.xml" value="0.22" />
-        <entry key="..\:/Users/jujor/AndroidStudioProjects/proyectos/hugo/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/jujor/AndroidStudioProjects/proyectos/hugo/app/src/main/res/layout/activity_main.xml" value="0.4125" />
         <entry key="..\:/Users/jujor/AndroidStudioProjects/proyectos/hugo/app/src/main/res/layout/activity_sing_up_screen.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/jujor/AndroidStudioProjects/proyectos/hugo/app/src/main/res/layout/item_match.xml" value="0.5" />
         <entry key="..\:/Users/jujor/AndroidStudioProjects/proyectos/hugo/app/src/main/res/menu/menu_principal.xml" value="0.1796875" />

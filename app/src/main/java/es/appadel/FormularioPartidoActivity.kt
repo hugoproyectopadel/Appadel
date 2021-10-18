@@ -1,5 +1,6 @@
 package es.appadel
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
@@ -44,17 +46,31 @@ class FormularioPartidoActivity : AppCompatActivity() {
         spNivel = findViewById(R.id.spNivel)
         btnEliminar = findViewById(R.id.btnEliminarPartido)
         btnCrear = findViewById(R.id.btnCrearPartido)
-        
+
         val bundle = intent.extras
         bundle?.let {
             uidPartido = it.getString("EXTRA_UID_PARTIDO").toString()
-            esModificar = true 
-            btnCrear.text ="Modificar"
+            esModificar = true
+            btnCrear.text = "Modificar"
             btnEliminar.isVisible = true
         }
 
     }
-    
+
+    fun eliminarPartidoFirestore(uid: String) {
+        Firebase.firestore.collection("partidos").document(uid).delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Partido eliminado", Toast.LENGTH_LONG)
+                    .show()
+                finish()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error al eliminar partido.", Toast.LENGTH_LONG)
+                    .show()
+                finish()
+            }
+    }
+
     fun crearModificarPartidoFirestore(partido: Partido) {
 
         partido.uid?.let {
@@ -71,8 +87,8 @@ class FormularioPartidoActivity : AppCompatActivity() {
         }
 
     }
-     
-    
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun onClickCrearPartido(view: android.view.View) {
         val direccion = etDireccion.text.toString()
@@ -93,9 +109,9 @@ class FormularioPartidoActivity : AppCompatActivity() {
                 val nivel = spNivel.selectedItem.toString()
                 val provincia = spProvincia.selectedItem.toString()
                 val jugadores = spNumJugadores.selectedItem.toString().toInt()
-               
-                
-                if(esModificar){
+
+
+                if (esModificar) {
                     val partida = Partido(
                         uid = uidPartido,
                         direccion = direccion,
@@ -105,7 +121,7 @@ class FormularioPartidoActivity : AppCompatActivity() {
                         provincia = provincia
                     )
                     crearModificarPartidoFirestore(partida)
-                }else{
+                } else {
                     val partida = Partido(
                         uid = UUID.randomUUID().toString(),
                         direccion = direccion,
@@ -123,8 +139,26 @@ class FormularioPartidoActivity : AppCompatActivity() {
         }
     }
 
-    fun onClickEliminar(view: android.view.View) {}
-    
+    fun onClickEliminar(view: android.view.View) {
+
+        val builder = AlertDialog.Builder(this)
+        builder.apply {
+            setPositiveButton("SI",
+                DialogInterface.OnClickListener { dialog, id ->
+                    eliminarPartidoFirestore(uidPartido)
+                })
+            setNegativeButton("NO",
+                DialogInterface.OnClickListener { dialog, id ->
+                    dialog.dismiss()
+                })
+        }
+            .setCancelable(true)
+            .setTitle("Estás seguro/a de eliminar este partido")
+
+        builder.create().show()
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertirFecha(fechaStr: String): Timestamp? {
         if (validarFecha(fechaStr)) {
