@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import es.appadel.clases.Partido
@@ -20,6 +22,7 @@ class DetallePartidoActivity : AppCompatActivity() {
     lateinit var tvNivel: TextView
     lateinit var btnInscribirme: Button
     lateinit var uidPartido: String
+    lateinit var partidoSave: Partido
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +51,7 @@ class DetallePartidoActivity : AppCompatActivity() {
             val fechaNumero = MetodosFecha.getNumero(it.fecha!!.toDate())
             val horaNombre = MetodosFecha.getHora(it.fecha!!.toDate())
             val minutos = MetodosFecha.getMinutos(it.fecha!!.toDate())
-            tvHora.text = "$fechaNumero de $fechaNombre"
+            tvFecha.text = "$fechaNumero de $fechaNombre"
             tvHora.text = "$horaNombre:$minutos"
             tvDir.text = "${it.direccion}, (${it.provincia})"
             if(it.users!=null){
@@ -56,12 +59,58 @@ class DetallePartidoActivity : AppCompatActivity() {
             }else{
                 tvNumJugadores.text =  "0/${it.numero_jugadores}"
             }
+            tvNivel.text = "${it.nivel}"
+
+
+            Firebase.auth.currentUser?.let{
+                partido.users?.let{ users ->
+                    if(users.contains(it.uid)){
+                        btnInscribirme.text = "Borrarme del partido"
+                    }else{
+                        if(users.size == partido.numero_jugadores){
+                            btnInscribirme.text = "Partido completo"
+                            btnInscribirme.isEnabled = false
+                        }else{
+                            btnInscribirme.text = "Inscribirme en el partido"
+                        }
+                    }
+                }
+            }
         }
+    }
+    fun inscribirPartidoFirestore(uidPartido: String, uidUser: String){
+        Firebase.firestore.collection("partidos").document(uidPartido).update(
+            "users",
+            FieldValue.arrayUnion(uidUser)
+        ).addOnSuccessListener {
+            Toast.makeText(applicationContext, "Te has inscrito al partido", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+            .addOnFailureListener {
+                Toast.makeText(applicationContext, "Error al inscribirse al partido", Toast.LENGTH_SHORT).show()
+            }
+
+    }
+    fun borrarInscripconPartidoFirestore(uidPartido: String, uidUser: String){
+        Firebase.firestore.collection("partidos").document(uidPartido).update(
+            "users",
+            FieldValue.arrayRemove(uidUser)
+        ).addOnSuccessListener {
+            Toast.makeText(applicationContext, "Te has inscrito al partido", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+            .addOnFailureListener {
+                Toast.makeText(applicationContext, "Error al inscribirse al partido", Toast.LENGTH_SHORT).show()
+            }
+
     }
     fun cargarPartidoFirestore(uid: String){
         Firebase.firestore.collection("partidos").document(uid).get()
-            .addOnSuccessListener { 
+            .addOnSuccessListener {
                 val partido = it.toObject(Partido::class.java)
+                partido?.let { partidoIt ->
+                    partidoSave = partidoIt
+                }
                 dibujarPartidoDetalles(partido)
             }
             .addOnFailureListener {
@@ -69,6 +118,14 @@ class DetallePartidoActivity : AppCompatActivity() {
             }
     }
     fun onClickInscribirse(view: android.view.View) {
-        
+        Firebase.auth.currentUser?.let{
+            partidoSave.users?.let{ users ->
+                if(users.contains(it.uid)){
+                    borrarInscripconPartidoFirestore(partidoSave.uid!!,it.uid)
+                }else{
+                    inscribirPartidoFirestore(partidoSave.uid!!,it.uid)
+                }
+            }
+        }
     }
 }

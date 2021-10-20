@@ -1,7 +1,14 @@
 package es.appadel.herramientas
 
+import android.graphics.Color
+import android.opengl.Visibility
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import es.appadel.clases.Partido
 
 @BindingAdapter("setNumeroJugadores")
@@ -12,7 +19,14 @@ fun TextView.setNumeroJugadores(partido: Partido){
         text =  "0/${partido.numero_jugadores}"
     }
 }
-
+@BindingAdapter("setLayoutUser")
+fun LinearLayout.setLayoutUser(partido: Partido){
+    visibility = if(Firebase.auth.currentUser?.uid.toString() == partido.creadoPor){
+        VISIBLE
+    }else{
+        INVISIBLE
+    }
+}
 
 @BindingAdapter("setFechaDia")
 fun TextView.setFechaDia(partido: Partido){

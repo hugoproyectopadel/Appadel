@@ -72,7 +72,9 @@ class LoginScreenActivity : AppCompatActivity() {
             Firebase.auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     } else {
                         Toast.makeText(
                             baseContext, "¡Error! Ocurrió un error al intentar acceder",

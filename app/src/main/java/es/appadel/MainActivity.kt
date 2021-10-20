@@ -9,9 +9,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -25,6 +27,7 @@ import es.appadel.clases.Partido
 
 class MainActivity : AppCompatActivity() {
     lateinit var rvPartidos: RecyclerView
+    lateinit var progressBar: ProgressBar
     lateinit var spProvinciasBuscar: Spinner
     lateinit var btnSearch: ImageButton
     lateinit var btnCrearPartido: FloatingActionButton
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        progressBar = findViewById(R.id.progressBar)
         rvPartidos = findViewById(R.id.rvPartidos)
         spProvinciasBuscar = findViewById(R.id.spBusqueda)
         btnSearch = findViewById(R.id.btnSearch)
@@ -43,15 +47,28 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         btnSearch.setOnClickListener {
+            progressBar.isVisible = true
             rvPartidos.removeAllViews()
             val provincia = spProvinciasBuscar.selectedItem.toString()
             cargarPartidosFirestore(provincia)
         }
         partidoAdapter = PartidoAdapter(ClickItem {
-            val intent = Intent(applicationContext, DetallePartidoActivity::class.java).apply {
-                putExtra("EXTRA_UID_PARTIDO",it.uid)
+            FirebaseAuth.getInstance().currentUser?.let { user ->
+                if(user.uid == it.creadoPor){
+                    val intent = Intent(applicationContext, FormularioPartidoActivity::class.java).apply {
+                        putExtra("EXTRA_UID_PARTIDO",it.uid)
+                    }
+                    startActivity(intent)
+                }else{
+                    val intent = Intent(applicationContext, DetallePartidoActivity::class.java).apply {
+                        putExtra("EXTRA_UID_PARTIDO",it.uid)
+                    }
+                    startActivity(intent)
+                }
+
             }
-            startActivity(intent)
+
+
 
         })
         cargarPartidosFirestore()
@@ -59,6 +76,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        cargarPartidosFirestore()
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_principal, menu)
@@ -97,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                 partidoAdapter.submitList(tempPartidosList)
                 partidoAdapter.notifyDataSetChanged()
                 rvPartidos.adapter = partidoAdapter
+                progressBar.isVisible = false
             }
             .addOnFailureListener {
                 Toast.makeText(applicationContext,  "Error al cargar los partidos", Toast.LENGTH_SHORT).show()

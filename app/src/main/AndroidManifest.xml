@@ -13,6 +13,7 @@
         android:theme="@style/Theme.Appadel">
         <activity
             android:name=".DetallePartidoActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".FormularioPartidoActivity"

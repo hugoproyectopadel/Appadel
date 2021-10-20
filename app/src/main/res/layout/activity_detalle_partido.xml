@@ -8,31 +8,34 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="8dp"
+        android:background="@color/purple_200"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tvDetallesFecha"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="22 Octubre"
             android:textAlignment="center"
-            android:textSize="18dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
           />
 
         <TextView
             android:id="@+id/tvDetallesHora"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="16:30"
             android:textAlignment="center"
-            android:textSize="18dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
            />
 
     </LinearLayout>
@@ -59,14 +62,20 @@
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDetallesNumPersonas"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="@+id/tvDetallesNumPersonas"
                 app:srcCompat="@drawable/ic_people" />
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDetallesDir"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvDetallesDir"
                 app:srcCompat="@drawable/ic_dir" />
 
             <TextView
@@ -74,7 +83,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="TextView"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,14 +93,17 @@
                 android:id="@+id/btnInscribirse"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_weight="1"
                 android:onClick="onClickInscribirse"
                 android:text="Inscribirme"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDetallesNivel" />
 
             <TextView
                 android:id="@+id/tvDetallesNumPersonas"
@@ -98,6 +112,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toEndOf="@+id/imageView4"
                 app:layout_constraintTop_toBottomOf="@+id/tvDetallesDir" />
 
@@ -105,8 +120,10 @@
                 android:id="@+id/imageView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDetallesNivel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/tvDetallesNivel"
                 app:srcCompat="@drawable/ic_level" />
 
             <TextView
@@ -116,6 +133,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="6dp"
                 android:text="TextView"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toEndOf="@+id/imageView5"
                 app:layout_constraintTop_toBottomOf="@+id/tvDetallesNumPersonas" />
 
