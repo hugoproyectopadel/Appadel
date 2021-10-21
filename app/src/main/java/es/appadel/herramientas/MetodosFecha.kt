@@ -1,5 +1,6 @@
 package es.appadel.herramientas
 
+import java.text.SimpleDateFormat
 import java.util.*
 
 object MetodosFecha {
@@ -43,5 +44,10 @@ object MetodosFecha {
             minutos = "00"
         }
         return minutos
+    }
+
+    fun getFechaFormato(date: Date): String{
+        var df: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm")
+        return df.format(date)
     }
 }

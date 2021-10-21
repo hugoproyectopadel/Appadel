@@ -14,15 +14,20 @@
         <activity
             android:name=".DetallePartidoActivity"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".FormularioPartidoActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SingUpScreenActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".LoginScreenActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +37,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
     </application>
 

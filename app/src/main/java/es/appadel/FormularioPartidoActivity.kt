@@ -14,9 +14,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import es.appadel.clases.Partido
+import es.appadel.herramientas.MetodosFecha
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -53,10 +55,45 @@ class FormularioPartidoActivity : AppCompatActivity() {
             esModificar = true
             btnCrear.text = "Modificar"
             btnEliminar.isVisible = true
+            cargarPartidoFirestore(uidPartido)
         }
 
     }
 
+    fun dibujarPartido(partido: Partido){
+        partido?.let {
+
+            etDireccion.setText("${it.direccion}")
+
+            val listNumJugadores = resources.getStringArray(R.array.jugadores)
+            val indexJugador = listNumJugadores.indexOf(it.numero_jugadores.toString())
+            spNumJugadores.setSelection(indexJugador)
+
+            val listNivel= resources.getStringArray(R.array.nivel)
+            val indexNivel = listNivel.indexOf(it.nivel)
+            spNivel.setSelection(indexNivel)
+
+            val listProvincia= resources.getStringArray(R.array.provincias)
+            val indexProvincia = listProvincia.indexOf(it.provincia)
+            spProvincia.setSelection(indexProvincia)
+
+            etFecha.setText(MetodosFecha.getFechaFormato(it.fecha!!.toDate()))
+
+
+        }
+    }
+    fun cargarPartidoFirestore(uid: String){
+        Firebase.firestore.collection("partidos").document(uid).get()
+            .addOnSuccessListener {
+                val partido = it.toObject(Partido::class.java)
+                partido?.let { partidoIt ->
+                    dibujarPartido(partido)
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(applicationContext, "Error al cargar el partido seleccionado", Toast.LENGTH_SHORT).show()
+            }
+    }
     fun eliminarPartidoFirestore(uid: String) {
         Firebase.firestore.collection("partidos").document(uid).delete()
             .addOnSuccessListener {

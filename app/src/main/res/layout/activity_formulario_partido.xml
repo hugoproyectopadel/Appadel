@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
+    android:background="@color/ligthColor"
     tools:context=".FormularioPartidoActivity">
 
     <androidx.cardview.widget.CardView
@@ -44,6 +44,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Fecha y hora" />
 
             <EditText
@@ -57,14 +58,15 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Numero de jugadores" />
 
 
             <Spinner
                 android:id="@+id/spNumJugadores" android:spinnerMode="dialog"
                 android:entries="@array/jugadores"
-                style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
 
+                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -72,13 +74,15 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Provincia" />
 
             <Spinner
                 android:id="@+id/spProvincia"
                 android:spinnerMode="dialog"
                 android:entries="@array/provincias"
-                style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+
+                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -86,6 +90,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Nivel" />
 
             <Spinner
@@ -93,13 +98,15 @@
                 android:layout_width="match_parent"
                 android:spinnerMode="dialog"
                 android:entries="@array/nivel"
-                style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+
+                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btnCrearPartido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:onClick="onClickCrearPartido"
                 android:text="Crear partido" />
 

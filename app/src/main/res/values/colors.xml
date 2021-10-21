@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#F44336</color>
+
+    <color name="mediumColor">#456D79</color>
+    <color name="darkColor">#254853</color>
+    <color name="ligthColor">#83A1AA</color>
+    <color name="variantColor">#FF9800</color>
 </resources>
